@@ -53,13 +53,32 @@ data = {
     "color": color_q
 }
 
+
+# Fetch Data 
+df = fetch_responses()
+# Export data to CSV
+download_password = "ds2023synch"
+
+st.write("Enter password to access the database download:")
+user_password = st.text_input("Password", type="password")
+
+if user_password == download_password:
+    st.success("Password accepted.")
+    csv = df.to_csv(index=False)
+    st.download_button(
+        label="Download responses as CSV",
+        data=csv,
+        file_name="responses.csv",
+        mime="text/csv"
+    )
+elif user_password:
+    st.error("Incorrect password. Please try again.")
+
+
 # Submit Button
 if st.button("Submit"):
     insert_response(**data)
     st.success("Thank you for your response!")
-
-    # Fetch Data if submitted
-    df = fetch_responses()
 
     st.header("Everyone else's responses...")
 
@@ -110,24 +129,6 @@ if st.button("Submit"):
     ax.set_xlabel("Color")
     ax.set_ylabel("Amount Given")
     st.pyplot(fig)
-
-    # Export data to CSV
-    download_password = "ds2023synch"
-
-    st.write("Enter password to access the database download:")
-    user_password = st.text_input("Password", type="password")
-
-    if user_password == download_password:
-        st.success("Password accepted.")
-        csv = df.to_csv(index=False)
-        st.download_button(
-            label="Download responses as CSV",
-            data=csv,
-            file_name="responses.csv",
-            mime="text/csv"
-        )
-    elif user_password:
-        st.error("Incorrect password. Please try again.")
 
 
 conn.close()
