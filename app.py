@@ -61,6 +61,15 @@ if st.button("Submit"):
     # Fetch Data if submitted
     df = fetch_responses()
 
+    # Export data to CSV
+    csv = df.to_csv(index=False)
+    st.download_button(
+        label="Download responses as CSV",
+        data=csv,
+        file_name="responses.csv",
+        mime="text/csv"
+    )
+
     st.header("Everyone else's responses...")
 
     # Height histogram
