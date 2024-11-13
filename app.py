@@ -53,6 +53,27 @@ data = {
     "color": color_q
 }
 
+# provide download
+download_password = "ds2024synch" 
+
+# authenticate
+st.write("Enter password to access the database download:")
+user_password = st.text_input("Password", type="password")
+
+if user_password == download_password:
+    # If the password is correct, show the download button
+    st.success("Password accepted.")
+    with open("db/responses.db", "rb") as file:
+        st.download_button(
+            label="Download Database",
+            data=file,
+            file_name="responses.db",
+            mime="application/octet-stream"
+        )
+elif user_password:
+    # Incorrect password message
+    st.error("Incorrect password. Please try again.")
+
 # Submit Button
 if st.button("Submit"):
     insert_response(**data)
